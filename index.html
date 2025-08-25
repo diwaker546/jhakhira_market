@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preeti Medical Store - Your Trusted Pharmacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .language-flag {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .medicine-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .medicine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .whatsapp-badge {
+            background-color: #25D366;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .file-input-hidden {
+            opacity: 0;
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Login Page -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md mx-4">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-heartbeat text-blue-600 text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800">Preeti Medical Store</h1>
+                <p class="text-gray-600 mt-2">Your trusted healthcare partner</p>
+                <p class="text-sm text-gray-500 mt-1">Owner: Chitrasen Yadav</p>
+                <p class="text-sm text-gray-500">📞 7525837320</p>
+            </div>
+
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Indian Mobile Number</label>
+                    <div class="flex">
+                        <span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm rounded-l-md">
+                            +91
+                        </span>
+                        <input 
+                            type="tel" 
+                            id="mobileNumber"
+                            pattern="[0-9]{10}"
+                            maxlength="10"
+                            placeholder="Enter 10-digit mobile number"
+                            class="flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-r-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div id="otpSection" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Enter OTP</label>
+                    <input 
+                        type="text" 
+                        id="otpInput"
+                        pattern="[0-9]{6}"
+                        maxlength="6"
+                        placeholder="Enter 6-digit OTP"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                </div>
+
+                <button 
+                    type="submit"
+                    id="loginButton"
+                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
+                >
+                    Send OTP
+                </button>
+
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        By continuing, you agree to our 
+                        <a href="#" class="text-blue-600 hover:text-blue-800">Terms of Service</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Language Selection Modal -->
+    <div id="languageModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md mx-4">
+            <h2 class="text-2xl font-bold text-center mb-6">Choose Language</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="selectLanguage('english')" class="p-6 border-2 border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition duration-200">
+                    <div class="text-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/620fb999-b764-4bea-9f27-912e9aaa2295.png" alt="United States flag representing English language" class="language-flag mx-auto mb-3" onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/649f5a03-7101-443c-b5eb-93757c6192f7.png'">
+                        <span class="font-medium">English</span>
+                    </div>
+                </button>
+                <button onclick="selectLanguage('hindi')" class="p-6 border-2 border-gray-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition duration-200">
+                    <div class="text-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/89d6b047-d386-437e-bdbc-1654cbadb706.png" alt="Indian flag representing Hindi language" class="language-flag mx-auto mb-3" onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cd62a76f-37a0-4ef0-9fe8-1a22a9137b63.png'">
+                        <span class="font-medium">हिंदी</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Form -->
+    <div id="userDetailsPage" class="min-h-screen bg-gray-50 hidden p-4">
+        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-6">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Complete Your Profile</h2>
+                <p class="text-gray-600">Help us serve you better</p>
+            </div>
+
+            <form id="userDetailsForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" id="userName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
+                        <input type="tel" id="userMobile" value="+91 " readonly class="w-full px-3 py-2 border border-gray-300 bg-gray-50 rounded-md">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address</label>
+                    <textarea id="userAddress" required rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Enter complete address with landmark"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                    <input type="text" id="userCity" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pincode</label>
+                        <input type="text" id="userPincode" pattern="[0-9]{6}" maxlength="6" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">State</label>
+                        <input type="text" id="userState" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                    Save & Continue
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="mainDashboard" class="min-h-screen bg-gray-50 hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-heartbeat text-blue-600"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-800">Preeti Medical Store</h1>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <button onclick="openWhatsApp()" class="relative p-2 text-gray-600 hover:text-green-600">
+                            <i class="fab fa-whatsapp text-2xl"></i>
+                            <span class="whatsapp-badge absolute -top-1 -right-1 w-5 h-5 bg-green-500 text-white text-xs rounded-full flex items-center justify-center">5</span>
+                        </button>
+                        <button onclick="toggleAdminPanel()" class="p-2 text-gray-600 hover:text-blue-600">
+                            <i class="fas fa-cog text-xl"></i>
+                        </button>
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium">
+                            <span id="userInitial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Order Options Section -->
+        <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4">How would you like to order?</h2>
+                    <p class="text-blue-100">Choose your preferred way to get your medicines</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Upload Prescription -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-camera text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Upload Prescription</h3>
+                        <p class="text-blue-100 mb-6">Take a photo of your prescription and we'll prepare your medicines</p>
+                        <label class="inline-flex items-center px-6 py-3 bg-white text-blue-600 rounded-full cursor-pointer hover:bg-blue-50 transition duration-200">
+                            <i class="fas fa-upload mr-2"></i>
+                            Upload Photo
+                            <input type="file" accept="image/*" class="file-input-hidden" id="prescriptionUpload" onchange="handlePrescriptionUpload(this.files)">
+                        </label>
+                    </div>
+
+                    <!-- Manual Order -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-pen text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Manual Order</h3>
+                        <p class="text-blue-100 mb-6">Enter medicine names manually and we'll prepare your order</p>
+                        <button onclick="openManualOrder()" class="px-6 py-3 bg-white text-blue-600 rounded-full hover:bg-blue-50 transition duration-200">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Medicines
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Featured Medicines</h2>
+                    <p class="text-gray-600">Quality medicines for your health and wellness</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" id="productsGrid">
+                    <!-- Products will be dynamically added here -->
+                </div>
+
+                <!-- Admin Panel (Hidden by default) -->
+                <div id="adminPanel" class="bg-white rounded-2xl shadow-xl p-6 mt-8 hidden">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6">Admin Panel - Add New Medicine</h3>
+                    <form id="addMedicineForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Medicine Name</label>
+                                <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
+                                <input type="number" step="0.01" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Image</label>
+                            <input type="file" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700">
+                            Add Medicine
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Manual Order Modal -->
+    <div id="manualOrderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md mx-4">
+            <h2 class="text-2xl font-bold mb-6">Add Medicines Manually</h2>
+            <form id="manualOrderForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Medicine Name</label>
+                    <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter medicine name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                    <input type="number" min="1" value="1" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div class="flex space-x-4">
+                    <button type="button" onclick="closeManualOrder()" class="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        Add to Cart
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- WhatsApp Notification -->
+    <div id="whatsappNotification" class="fixed bottom-4 right-4 bg-green-100 border border-green-300 rounded-lg p-4 shadow-lg hidden z-50">
+        <div class="flex items-center">
+            <i class="fab fa-whatsapp text-green-600 text-xl mr-3"></i>
+            <div>
+                <p class="text-sm font-medium text-gray-800">Order sent to WhatsApp!</p>
+                <p class="text-xs text-gray-600">Owner will contact you shortly</p>
+            </div>
+            <button onclick="closeWhatsAppNotification()" class="ml-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample medicine data
+        const sampleMedicines = [
+            {
+                id: 1,
+                name: "Paracetamol 500mg",
+                price: 45.00,
+                description: "Pain reliever and fever reducer",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c7a42e60-7397-4f34-a7da-66bdd154858b.png"
+            },
+            {
+                id: 2,
+                name: "Amoxicillin 250mg",
+                price: 120.00,
+                description: "Antibiotic for bacterial infections",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0521f4f1-583d-4954-9be3-f6d0cbb6ee9d.png"
+            },
+            {
+                id: 3,
+                name: "Atorvastatin 10mg",
+                price: 95.00,
+                description: "Cholesterol lowering medication",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1001e87f-bdb5-40cb-ab2c-32bf3923b9d4.png"
+            },
+            {
+                id: 4,
+                name: "Metformin 500mg",
+                price: 85.00,
+                description: "Diabetes medication",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/db044004-a43e-4d65-8626-d5cc4f1687ce.png"
+            },
+            {
+                id: 5,
+                name: "Vitamin D3 1000IU",
+                price: 150.00,
+                description: "Bone health supplement",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0b727ed3-8b44-4bed-bd5e-d5a794764fc5.png"
+            },
+            {
+                id: 6,
+                name: "Omeprazole 20mg",
+                price: 110.00,
+                description: "Acid reducer for heartburn",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1144803c-48b2-44e3-9e8f-d188f7d6f16a.png"
+            },
+            {
+                id: 7,
+                name: "Aspirin 75mg",
+                price: 65.00,
+                description: "Blood thinner and pain relief",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8b49fee2-74cb-4335-a5b8-3d6c3da48fdb.png"
+            },
+            {
+                id: 8,
+                name: "Cetirizine 10mg",
+                price: 55.00,
+                description: "Antihistamine for allergies",
+                image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/69828666-f938-4ae5-af2e-cd1093c2a733.png"
+            }
+        ];
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const languageModal = document.getElementById('languageModal');
+        const userDetailsPage = document.getElementById('userDetailsPage');
+        const mainDashboard = document.getElementById('mainDashboard');
+        const loginForm = document.getElementById('loginForm');
+        const otpSection = document.getElementById('otpSection');
+        const loginButton = document.getElementById('loginButton');
+        const mobileNumberInput = document.getElementById('mobileNumber');
+        const otpInput = document.getElementById('otpInput');
+        const userMobileInput = document.getElementById('userMobile');
+        const userInitialSpan = document.getElementById('userInitial');
+        const productsGrid = document.getElementById('productsGrid');
+        const adminPanel = document.getElementById('adminPanel');
+        const manualOrderModal = document.getElementById('manualOrderModal');
+        const whatsappNotification = document.getElementById('whatsappNotification');
+
+        // Current state
+        let currentLanguage = 'english';
+        let otpSent = false;
+        let generatedOTP = '';
+
+        // Initialize the application
+        function initApp() {
+            // Check if user is already logged in (from localStorage)
+            const savedUser = localStorage.getItem('preetiMedicalUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                showMainDashboard(user);
+                return;
+            }
+
+            // Setup event listeners
+            loginForm.addEventListener('submit', handleLogin);
+            document.getElementById('userDetailsForm').addEventListener('submit', handleUserDetails);
+            document.getElementById('addMedicineForm').addEventListener('submit', handleAddMedicine);
+            document.getElementById('manualOrderForm').addEventListener('submit', handleManualOrder);
+            
+            // Render products
+            renderProducts();
+        }
+
+        // Handle login form submission
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            if (!otpSent) {
+                // Send OTP (simulated)
+                const mobileNumber = mobileNumberInput.value;
+                if (!mobileNumber || mobileNumber.length !== 10) {
+                    alert('Please enter a valid 10-digit mobile number');
+                    return;
+                }
+                
+                generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                alert(`OTP sent to +91${mobileNumber}: ${generatedOTP} (This is a simulation)`);
+                
+                otpSection.classList.remove('hidden');
+                loginButton.textContent = 'Verify OTP';
+                otpSent = true;
+            } else {
+                // Verify OTP
+                if (otpInput.value === generatedOTP) {
+                    userMobileInput.value = '+91' + mobileNumberInput.value;
+                    hideElement(loginPage);
+                    showElement(languageModal);
+                } else {
+                    alert('Invalid OTP. Please try again.');
+                }
+            }
+        }
+
+        // Handle user details form submission
+        function handleUserDetails(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const userData = {
+                name: document.getElementById('userName').value,
+                mobile: document.getElementById('userMobile').value,
+                address: document.getElementById('userAddress').value,
+                city: document.getElementById('userCity').value,
+                pincode: document.getElementById('userPincode').value,
+                state: document.getElementById('userState').value
+            };
+            
+            // Save user data to localStorage
+            localStorage.setItem('preetiMedicalUser', JSON.stringify(userData));
+            
+            hideElement(userDetailsPage);
+            showMainDashboard(userData);
+        }
+
+        // Handle manual order form submission
+        function handleManualOrder(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const medicineName = formData.get('medicineName') || 'Manual Order';
+            const quantity = formData.get('quantity') || 1;
+            
+            // Simulate sending to WhatsApp
+            sendOrderToWhatsApp(`${medicineName} (Qty: ${quantity})`);
+            closeManualOrder();
+        }
+
+        // Handle add medicine form submission
+        function handleAddMedicine(e) {
+            e.preventDefault();
+            alert('Medicine added successfully! (This is a simulation - backend integration required)');
+            e.target.reset();
+        }
+
+        // Select language
+        function selectLanguage(lang) {
+            currentLanguage = lang;
+            hideElement(languageModal);
+            showElement(userDetailsPage);
+            
+            // Update UI based on language
+            if (lang === 'hindi') {
+                document.querySelectorAll('h1, h2, h3, p, button, label').forEach(el => {
+                    if (el.textContent.includes('Choose Language')) el.textContent = 'भाषा चुनें';
+                    if (el.textContent.includes('Complete Your Profile')) el.textContent = 'अपना प्रोफाइल पूरा करें';
+                    if (el.textContent.includes('Help us serve you better')) el.textContent = 'हमें आपको बेहतर सेवा प्रदान करने में मदद करें';
+                    // Add more translations as needed
+                });
+            }
+        }
+
+        // Show main dashboard
+        function showMainDashboard(user) {
+            showElement(mainDashboard);
+            userInitialSpan.textContent = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+        }
+
+        // Render products
+        function renderProducts() {
+            productsGrid.innerHTML = '';
+            sampleMedicines.forEach(medicine => {
+                const productCard = document.createElement('div');
+                productCard.className = 'medicine-card bg-white rounded-xl shadow-md overflow-hidden';
+                productCard.innerHTML = `
+                    <img src="${medicine.image}" alt="${medicine.name} - ${medicine.description}" class="w-full h-48 object-cover" onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/34644ea5-7389-4ca6-b122-3bffa31f199c.png'">
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-2">${medicine.name}</h3>
+                        <p class="text-gray-600 text-sm mb-3">${medicine.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-blue-600">₹${medicine.price.toFixed(2)}</span>
+                            <button onclick="addToCart(${medicine.id})" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                                <i class="fas fa-cart-plus mr-1"></i>
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Add to cart function
+        function addToCart(medicineId) {
+            const medicine = sampleMedicines.find(m => m.id === medicineId);
+            if (medicine) {
+                sendOrderToWhatsApp(medicine.name);
+            }
+        }
+
+        // Handle prescription upload
+        function handlePrescriptionUpload(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    // Simulate processing and sending to WhatsApp
+                    sendOrderToWhatsApp('Prescription Image Uploaded');
+                    alert('Prescription uploaded successfully! Our team will process it shortly.');
+                } else {
+                    alert('Please upload an image file.');
+                }
+            }
+        }
+
+        // Send order to WhatsApp
+        function sendOrderToWhatsApp(orderDetails) {
+            const user = JSON.parse(localStorage.getItem('preetiMedicalUser') || '{}');
+            const message = `New Order from Preeti Medical Store:\n\nCustomer: ${user.name || 'Unknown'}\nMobile: ${user.mobile || 'Not provided'}\nAddress: ${user.address || 'Not provided'}\n\nOrder: ${orderDetails}\n\nPlease contact customer for confirmation.`;
+            
+            // Simulate sending to WhatsApp (would use WhatsApp API in production)
+            console.log('WhatsApp Message:', message);
+            
+            // Show notification
+            showElement(whatsappNotification);
+            setTimeout(() => {
+                hideElement(whatsappNotification);
+            }, 5000);
+        }
+
+        // Open WhatsApp chat (simulated)
+        function openWhatsApp() {
+            const user = JSON.parse(localStorage.getItem('preetiMedicalUser') || '{}');
+            const message = `Hello! I need help with my order from Preeti Medical Store. My name is ${user.name || 'Customer'}.`;
+            const whatsappUrl = `https://wa.me/917525837320?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Toggle admin panel
+        function toggleAdminPanel() {
+            adminPanel.classList.toggle('hidden');
+        }
+
+        // Open manual order modal
+        function openManualOrder() {
+            showElement(manualOrderModal);
+        }
+
+        // Close manual order modal
+        function closeManualOrder() {
+            hideElement(manualOrderModal);
+        }
+
+        // Close WhatsApp notification
+        function closeWhatsAppNotification() {
+            hideElement(whatsappNotification);
+        }
+
+        // Helper functions
+        function showElement(element) {
+            element.classList.remove('hidden');
+        }
+
+        function hideElement(element) {
+            element.classList.add('hidden');
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
+
